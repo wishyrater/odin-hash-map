@@ -22,7 +22,7 @@ export default class LinkedList {
 
     prepend = (key, value) => {
         let thisNode = this.start;
-        const newNode = new Node(value);
+        const newNode = new Node(key, value);
         newNode.next = thisNode;
         this.start = newNode;
     }
