@@ -18,7 +18,7 @@ class HashMap {
     set = (key, value) => {
         const index = this.hash(key) % this.buckets.length;
 
-        this.buckets[index] = [key, value];
+        this.buckets[index] = { "key": key, "value": value, "next": null };
     }
 
     printBuckets = () => {
