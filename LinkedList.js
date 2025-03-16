@@ -1,165 +1,162 @@
-import Node from "./Node.js";  
-export default class LinkedList {
-    constructor(start = null) {
-        this.start = start;
+import Node from './Node.js';
+class LinkedList {
+    constructor(head = null) {
+        this.head = head;
     }
 
-    append = (key, value) => {
-        let thisNode = this.start;
-        let prevNode;
-        const newNode = new Node(key, value);
-        if (thisNode === null) {
-            this.start = newNode;
+    append = (value) => {
+        let currentNode = this.head;
+        if (currentNode === null) {
+            this.head = new Node(value);
         } else {
-            while (thisNode !== null) {
-                prevNode = thisNode;
-                thisNode = thisNode.next;
+            let prevNode;
+            while (currentNode !== null) {
+                prevNode = currentNode;
+                currentNode = currentNode.nextNode;
             }
-            thisNode = newNode;
-            prevNode.next = thisNode;
+            prevNode.nextNode = new Node(value);
         }
     }
 
-    prepend = (key, value) => {
-        let thisNode = this.start;
-        const newNode = new Node(key, value);
-        newNode.next = thisNode;
-        this.start = newNode;
+    prepend = (value) => {
+        const newNode = new Node(value);
+        newNode.nextNode = this.head;
+        this.head = newNode;
     }
 
     size = () => {
-        let sum = 0;
-        let thisNode = this.start;
-        while (thisNode !== null) {
-            sum++;
-            thisNode = thisNode.next;
+        let count = 0;
+        let currentNode = this.head;
+        while (currentNode !== null) {
+            count++;
+            currentNode = currentNode.nextNode;
         }
+        return count;
     }
 
     head = () => {
-        return this.start;
+        return this.head;
     }
 
     tail = () => {
-        let thisNode = this.start;
-        let prevNode;
-        if (thisNode === null) {
-            return thisNode;
+        let currentNode = this.head;
+        if (currentNode === null) {
+            return null;
         } else {
-            while (thisNode !== null) {
-                prevNode = thisNode;
-                thisNode = thisNode.next;
+            let prevNode;
+            while (currentNode !== null) {
+                prevNode = currentNode;
+                currentNode = currentNode.nextNode;
             }
             return prevNode;
         }
     }
 
     at = (index) => {
-        let i = 0;
-        let thisNode = this.start;
-        if (thisNode === null) {
-            return;
-        } else {
-            while (i !== index) {
-                i++;
-                thisNode = thisNode.next;
-            }
-            return thisNode;
+        let currentNode = this.head;
+        for (let i = 0; i < index; i++) {
+            if (currentNode === null) return null;
+            currentNode = currentNode.nextNode;
         }
+        
+        return currentNode;
     }
 
     pop = () => {
-        let thisNode = this.start;
-        let prevNode;
-        if (thisNode === null) {
-            return;
-        } else {
-            while (thisNode !== null) {
-                prevNode = thisNode;
-                thisNode = thisNode.next;
-            }
+        if (this.head === null) return null;
+
+        if (this.head.nextNode === null) {
+            const poppedNode = this.head;
+            this.head = null;
+            return poppedNode;
         }
-        prevNode.next = null;
+
+        let currentNode = this.head;
+        let prevNode;
+        while (currentNode.nextNode !== null) {
+            prevNode = currentNode;
+            currentNode = currentNode.nextNode;
+        }
+        prevNode.nextNode = null;
+        return currentNode;
     }
 
     contains = (value) => {
-        let thisNode = this.start;
-        let prevNode;
-        if (thisNode === null) {
-            return false;
-        } else {
-            while (thisNode !== null) {
-                prevNode = thisNode;
-                thisNode = thisNode.next;
-                if (prevNode.value === value) {
-                    return true;
-                }
-            }
-            return false;
+        let currentNode = this.head;
+
+        while (currentNode !== null) {
+            if (currentNode.value === value) return true;
+            currentNode = currentNode.nextNode;
         }
+
+        return false;
     }
 
     find = (value) => {
-        let i = 0;
-        let thisNode = this.start;
-        let prevNode;
-        if (thisNode === null) {
-            return null;
-        } else {
-            while (thisNode !== null) {
-                prevNode = thisNode;
-                thisNode = thisNode.next;
-                if (prevNode.value === value) {
-                    return i;
-                }
-                i++;
-            }
-            return null;
+        let index = 0;
+        let currentNode = this.head;
+        while (currentNode !== null) {
+            if (currentNode.value === value) return index;
+            currentNode = currentNode.nextNode;
+            index++;
         }
+
+        return null;
     }
 
-    insertAt = (key, value, index) => {
-        const newNode = new Node(key, value);
-        let thisNode = this.start;
-        let prevNode;
-        let i = 0;
-        if (thisNode === null && index === 0) {
-            this.start = newNode;
-        } else if (thisNode === null) {
-            return;
+    toString = () => {
+        let currentNode = this.head;
+        let string = [];
+        while (currentNode !== null) {
+            string.push(`( ${currentNode.value} ) -> `);
+            currentNode = currentNode.nextNode;
+        }
+        string.push('( null )');
+        console.log(string.join(""));
+    }
+
+    insertAt = (value, index) => {
+        if (index < 0) return null;
+
+        if (index === 0) {
+            const newNode = new Node(value);
+            newNode.nextNode = this.head;
+            this.head = newNode;
         } else {
-            while (thisNode !== null) {
-                prevNode = thisNode;
-                thisNode = thisNode.next;
-                i++;
-                if (i === index) {
-                    newNode.next = thisNode;
-                    prevNode.next = newNode;
-                    return;
-                }
+            let currentNode = this.head;
+            let prevNode;
+            for (let i = 0; i < index; i++) {
+                if (currentNode === null) return null;
+                prevNode = currentNode;
+                currentNode = currentNode.nextNode;
             }
+            const newNode = new Node(value);
+            newNode.nextNode = currentNode;
+            prevNode.nextNode = newNode;
         }
     }
 
     removeAt = (index) => {
-        let thisNode = this.start;
-        let prevNode;
-        let i = 0;
-        if (thisNode === null) {
-            return;
+        if (index < 0 || this.head === null) return null;
+        if (index === 0) {
+            this.head = this.head.nextNode;
         } else {
-            while (thisNode !== null) {
-                prevNode = thisNode;
-                thisNode = thisNode.next;
-                i++;
-                if (i === index && thisNode === null) {
-                    prevNode.next = null;
-                    return;
-                } else if (i === index) {
-                    prevNode.next = thisNode.next;
-                    return;
-                }
+            let currentNode = this.head;
+            let prevNode;
+            for (let i = 0; i < index; i++) {
+                prevNode = currentNode;
+                currentNode = currentNode.nextNode;
+                if (currentNode === null) return null;
             }
+            prevNode.nextNode = currentNode.nextNode;
         }
     }
 }
+
+const list = new LinkedList();
+list.append('dog');
+list.append('cat');
+list.append('mouse');
+list.insertAt('pig', 1);
+list.removeAt(3);
+list.toString();
