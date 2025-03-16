@@ -1,5 +1,5 @@
 import Node from './Node.js';
-class LinkedList {
+export default class LinkedList {
     constructor(head = null) {
         this.head = head;
     }
@@ -152,11 +152,3 @@ class LinkedList {
         }
     }
 }
-
-const list = new LinkedList();
-list.append('dog');
-list.append('cat');
-list.append('mouse');
-list.insertAt('pig', 1);
-list.removeAt(3);
-list.toString();
