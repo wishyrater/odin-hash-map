@@ -4,22 +4,22 @@ export default class LinkedList {
         this.head = head;
     }
 
-    append = (value) => {
+    append = (key, value) => {
         let currentNode = this.head;
         if (currentNode === null) {
-            this.head = new Node(value);
+            this.head = new Node(key, value);
         } else {
             let prevNode;
             while (currentNode !== null) {
                 prevNode = currentNode;
                 currentNode = currentNode.nextNode;
             }
-            prevNode.nextNode = new Node(value);
+            prevNode.nextNode = new Node(key, value);
         }
     }
 
-    prepend = (value) => {
-        const newNode = new Node(value);
+    prepend = (key, value) => {
+        const newNode = new Node(key, value);
         newNode.nextNode = this.head;
         this.head = newNode;
     }
@@ -81,22 +81,22 @@ export default class LinkedList {
         return currentNode;
     }
 
-    contains = (value) => {
+    contains = (key) => {
         let currentNode = this.head;
 
         while (currentNode !== null) {
-            if (currentNode.value === value) return true;
+            if (currentNode.key === key) return true;
             currentNode = currentNode.nextNode;
         }
 
         return false;
     }
 
-    find = (value) => {
+    find = (key) => {
         let index = 0;
         let currentNode = this.head;
         while (currentNode !== null) {
-            if (currentNode.value === value) return index;
+            if (currentNode.key === key) return index;
             currentNode = currentNode.nextNode;
             index++;
         }
@@ -115,11 +115,11 @@ export default class LinkedList {
         console.log(string.join(""));
     }
 
-    insertAt = (value, index) => {
+    insertAt = (key, value, index) => {
         if (index < 0) return null;
 
         if (index === 0) {
-            const newNode = new Node(value);
+            const newNode = new Node(key, value);
             newNode.nextNode = this.head;
             this.head = newNode;
         } else {
@@ -130,7 +130,7 @@ export default class LinkedList {
                 prevNode = currentNode;
                 currentNode = currentNode.nextNode;
             }
-            const newNode = new Node(value);
+            const newNode = new Node(key, value);
             newNode.nextNode = currentNode;
             prevNode.nextNode = newNode;
         }
